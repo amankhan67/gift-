@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My World ❤️</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f3;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Prevents scrollbars when button moves */
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            max-width: 90%;
+        }
+
+        h1 { color: #ff4d6d; margin-bottom: 30px; font-size: 1.8rem; }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; }
+
+        #noBtn {
+            background-color: #777;
+            color: white;
+            position: absolute; /* Allows it to travel the whole screen */
+            transition: all 0.2s ease;
+            touch-action: none; /* Critical for mobile responsiveness */
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        .panda-img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-ui" class="container">
+        <h1>Will you be mine for life? 💍</h1>
+        <div class="btn-group">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div id="success-ui" class="success-screen">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyZzR0YXJnaG9oZzR0YXJnaG9oZzR0YXJnaG9oZzR0YXJnaG9oJmVwPXYxX2ludGVybmFsX2dpZl9ieV9iYW5hbmFfcmVjb3JkcyZjdD1n/EatwJZRUIv41G/giphy.gif" alt="Cute Panda" class="panda-img">
+        <h2 style="color: #ff4d6d;">hehe i knew it!<br>that i love you forever<br>my world ❤️</h2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const gameUI = document.getElementById('game-ui');
+        const successUI = document.getElementById('success-ui');
+
+        function moveNoButton() {
+            // Get screen dimensions
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Get button dimensions
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Calculate safe boundaries (keeps button 20px away from edges)
+            const maxX = screenWidth - btnWidth - 20;
+            const maxY = screenHeight - btnHeight - 20;
+
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Moves on hover (PC)
+        noBtn.addEventListener('mouseover', moveNoButton);
+        
+        // Moves on tap/click (Mobile/Tablet)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            gameUI.style.display = 'none';
+            noBtn.style.display = 'none';
+            successUI.style.display = 'block';
+            
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+    </script>
+</body>
+</html>
